@@ -1,9 +1,8 @@
 package nelsonapps.pucminas.tcc.persistence.entities;
 
-import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -11,12 +10,12 @@ import org.hibernate.validator.constraints.NotBlank;
 import nelsonapps.pucminas.tcc.constants.Constants;
 
 @Entity(name="manufacturer")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="PartnerType")
+@DiscriminatorValue("manufacturer")
 public class Manufacturer extends Partner {
 
 	@NotBlank
 	@Pattern(regexp=Constants.cnpjRegex)
+	@Column(unique=true)
 	private String cnpj;
 	
 	public String getCnpj() {

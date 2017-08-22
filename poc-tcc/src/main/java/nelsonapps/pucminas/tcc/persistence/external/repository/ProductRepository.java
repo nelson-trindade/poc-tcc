@@ -9,6 +9,6 @@ import nelsonapps.pucminas.tcc.persistence.external.entities.Product;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
 	Page<Product> findByManufacturerCnpj(String manufacturerCnpj,Pageable pageRequest);
-	Page<Product> findByShortNameLike(String shortNameSearchTerm);
+	Page<Product> findByShortNameLike(String shortNameSearchTerm,Pageable pageRequest);
 }
 

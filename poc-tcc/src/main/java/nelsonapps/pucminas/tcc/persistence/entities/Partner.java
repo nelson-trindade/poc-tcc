@@ -1,16 +1,21 @@
 package nelsonapps.pucminas.tcc.persistence.entities;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-@MappedSuperclass
-public abstract class Partner {
+@Entity(name="partner")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="partner_type")
+public class Partner {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -19,6 +24,7 @@ public abstract class Partner {
 	
 	@NotBlank
 	@Size(max=50)
+	@Column(unique=true)
 	private String name;
 	
 	@NotBlank

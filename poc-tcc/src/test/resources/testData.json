@@ -1,0 +1,8 @@
+[
+    {
+        "_class" : "nelsonapps.pucminas.tcc.persistence.entities.Manufacturer",
+        "name": "Nelson S/A",
+        "address":"Rua Santa Quitéria,120",
+        "cnpj":"11.111.111/1111-11"
+    }
+]

@@ -9,7 +9,9 @@ public class Constants {
 		public static final String COT = "Cotação";
 		public static final String PO = "Pedido de compra";
 		public static final String SO = "Ordem de venda";
-		public static final String RET = "Devolução"; 
+		public static final String RET = "Devolução";
+		public static final String EXPIRED_DATE = "Data de validade";
+		public static final String EMPTY_PACKAGE = "Embalagem vazia"; 
 	}
 	
 }

@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
@@ -16,7 +17,6 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 public class LogisticDoc {
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(updatable=false,nullable=false)
@@ -28,13 +28,16 @@ public class LogisticDoc {
 	private Date lastUpdateDate;
 	
 	@NotBlank
-	private String docNumType;
+	private String docType;
 	
-	@OneToOne
+	@OneToOne(optional=false)
 	private DocNumSequence docNum;
 
 	@OneToMany(mappedBy="docHeader")
 	private Collection<LogisticDocItem> items;
+	
+	@ManyToOne(optional=false)
+	private Partner partner;
 	
 	public Long getId() {
 		return Id;
@@ -60,12 +63,12 @@ public class LogisticDoc {
 		this.lastUpdateDate = lastUpdateDate;
 	}
 
-	public String getDocNumType() {
-		return docNumType;
+	public String getDocType() {
+		return docType;
 	}
 
-	public void setDocNumType(String docNumType) {
-		this.docNumType = docNumType;
+	public void setDocNumType(String docType) {
+		this.docType = docType;
 	}
 
 }
