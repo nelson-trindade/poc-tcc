@@ -13,4 +13,8 @@ public class DocNumSequence {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="docNumSeq")
 	private Long Id;
+	
+	public Long getId(){
+		return Id;
+	}
 }

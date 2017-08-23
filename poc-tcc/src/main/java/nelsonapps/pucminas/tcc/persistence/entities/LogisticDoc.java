@@ -66,9 +66,33 @@ public class LogisticDoc {
 	public String getDocType() {
 		return docType;
 	}
-
-	public void setDocNumType(String docType) {
+	
+	public void setDocType(String docType) {
 		this.docType = docType;
+	}
+
+	public Collection<LogisticDocItem> getItems() {
+		return items;
+	}
+
+	public void setItems(Collection<LogisticDocItem> items) {
+		this.items = items;
+	}
+
+	public Partner getPartner() {
+		return partner;
+	}
+
+	public void setPartner(Partner partner) {
+		this.partner = partner;
+	}
+
+	public DocNumSequence getDocNum() {
+		return docNum;
+	}
+	
+	public void setDocNum(DocNumSequence docNum){
+		this.docNum = docNum;
 	}
 
 }
