@@ -11,7 +11,14 @@ public class Constants {
 		public static final String SO = "Ordem de venda";
 		public static final String RET = "Devolução";
 		public static final String EXPIRED_DATE = "Data de validade";
-		public static final String EMPTY_PACKAGE = "Embalagem vazia"; 
+		public static final String EMPTY_PACKAGE = "Embalagem vazia";
+		public static final String START_DATE_KEY = "dataInicio";
+		public static final String END_DATE_KEY="dataFim";
+	}
+	
+	public class ErrorMessages{
+		public static final String AT_LEAST_ONE_NOT_NULL_ARGUMENT_ERROR="Ao menos um parâmetro deve ser diferente de nulo";
+		public static final String INCORRECT_DATES_KEY_LOGISTICDOCS_SEARCH_ERROR="Chaves de datas incorretas na busca de documentos de compra";
 	}
 	
 }

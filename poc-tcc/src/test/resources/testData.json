@@ -1,8 +1,22 @@
 [
     {
-        "_class" : "nelsonapps.pucminas.tcc.persistence.entities.Manufacturer",
-        "name": "Nelson S/A",
-        "address":"Rua Santa Quitéria,120",
-        "cnpj":"11.111.111/1111-11"
+      "_class" : "nelsonapps.pucminas.tcc.persistence.entities.Manufacturer",
+      "name": "Nelson S/A",
+      "address":"Rua Santa Quitéria,120",
+      "cnpj":"11.111.111/1111-11"
+    },
+    
+    {
+      "_class":"nelsonapps.pucminas.tcc.persistence.entities.Manufacturer",
+      "name": "Acme Corp",
+      "address" :"Rua FunnyToon,s/n,LA",
+      "cnpj":"22.222.222/2222-22"  
+    },
+    
+    {
+      "_class":"nelsonapps.pucminas.tcc.persistence.entities.Client",
+      "name" : "Pernalonga",
+      "address": "Rua Cenoura,s/n",
+      "cpf":"088.888.888-88"
     }
 ]
