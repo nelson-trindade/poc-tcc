@@ -3,7 +3,6 @@ package nelsonapps.pucminas.tcc.service;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -14,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
 import nelsonapps.pucminas.tcc.constants.Constants;
@@ -52,12 +53,8 @@ public class LogisticDocService implements ILogisticDocService {
 	}
 	
 	
-	private BooleanExpression generateFullPredicate(Partner partner, DocTypeEnum docType,
+	private Predicate generateFullPredicate(Partner partner, DocTypeEnum docType,
 			Map<String,Date> dateReferences) throws Exception{
-		
-		BooleanExpression v_finalPredicate = null;
-		BooleanExpression v_FirstPredicate = null;
-		BooleanExpression v_SecondPredicate = null;
 		
 		queryExpressions = new ArrayList<>(); 
 		
@@ -65,24 +62,13 @@ public class LogisticDocService implements ILogisticDocService {
 		getDocTypePredicate(docType);
 		getDateReferencesPredicate(dateReferences);
 	
-		if(queryExpressions.size()==1){
-			v_finalPredicate = queryExpressions.get(0);
-		} else if(queryExpressions.size()>1){
-			Iterator<BooleanExpression> v_Iterator = queryExpressions.iterator();
-			while(v_Iterator.hasNext()){
-				v_FirstPredicate = v_Iterator.next();
-				if(v_Iterator.hasNext()){
-					v_SecondPredicate = v_Iterator.next();
-					v_finalPredicate = v_finalPredicate == null ? 
-							           v_FirstPredicate.and(v_SecondPredicate)
-							           :v_finalPredicate.and(v_FirstPredicate.and(v_SecondPredicate));
-				}
-			}
-		} 
-	
-		return v_finalPredicate;
+		BooleanBuilder v_builder = new BooleanBuilder();
+		queryExpressions.forEach(exp -> v_builder.and(exp));
+		
+		return v_builder.getValue();
 	}
-
+	
+	
 	private void getPartnerPredicate(Partner partner){
 		Optional.ofNullable(partner).ifPresent(
 				partnerValue -> queryExpressions.add(QLogisticDoc.logisticDoc.partner.eq(partnerValue)));
@@ -97,20 +83,17 @@ public class LogisticDocService implements ILogisticDocService {
 	
 	private void getDateReferencesPredicate(Map<String, Date> dateReferences) throws Exception {
 		if (dateReferences != null) {
-
 			if (!(dateReferences.containsKey(Constants.Labels.START_DATE_KEY) ||
 					dateReferences.containsKey(Constants.Labels.END_DATE_KEY)))
 				throw new Exception(Constants.ErrorMessages.INCORRECT_DATES_KEY_LOGISTICDOCS_SEARCH_ERROR);
 
 			if (dateReferences.containsKey(Constants.Labels.START_DATE_KEY))
-				queryExpressions.add(QLogisticDoc.logisticDoc.createdDate.after(dateReferences.get("startDate")));
+				queryExpressions.add(QLogisticDoc.logisticDoc.createdDate.after(dateReferences.get(Constants.Labels.START_DATE_KEY)));
 
 			if (dateReferences.containsKey(Constants.Labels.END_DATE_KEY))
-				queryExpressions.add(QLogisticDoc.logisticDoc.createdDate.before(dateReferences.get("endDate")));
-
+				queryExpressions.add(QLogisticDoc.logisticDoc.createdDate.before(dateReferences.get(Constants.Labels.END_DATE_KEY)));
 		}
 	}
-
 
 	@Override
 	public LogisticDoc create(DocTypeEnum docType, Partner partner) {
@@ -122,7 +105,6 @@ public class LogisticDocService implements ILogisticDocService {
 		
 		return logisticDocRepository.save(v_NewLogisticDoc);
 	}
-
 
 	@Override
 	public LogisticDoc update(LogisticDoc logisticDoc) {

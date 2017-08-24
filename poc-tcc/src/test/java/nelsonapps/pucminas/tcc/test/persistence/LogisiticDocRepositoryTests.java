@@ -94,7 +94,7 @@ public class LogisiticDocRepositoryTests {
 	
 	@Test
 	@Transactional
-	public void findLogisticDocWithPartnerAndAfterCreatedDateInFuture() throws Exception{
+	public void findLogisticDocAfterCreatedDateInFuture() throws Exception{
 		createLogisticDoc();
 		
 		Calendar v_ReferenceDate = Calendar.getInstance();
@@ -111,10 +111,24 @@ public class LogisiticDocRepositoryTests {
 	
 	@Test
 	@Transactional
-	public void dataFormatExceptionTest(){
-		
-	}
-	
+	public void dataFormatExceptionTest() {
+
+		createLogisticDoc();
+
+		Calendar v_ReferenceDate = Calendar.getInstance();
+		v_ReferenceDate.set(2017, 8, 31);
+
+		HashMap<String, Date> v_DateInterval = new HashMap<>();
+		v_DateInterval.put("A", v_ReferenceDate.getTime());
+		v_DateInterval.put("B",v_ReferenceDate.getTime());
+
+		try{
+			assertThat(logisticDocService.findByPartnerDocTypeAndDateInterval(
+					null, null,v_DateInterval,new PageRequest(0,10)).getContent().size()>0);
+		} catch(Exception ex){
+			assertThat(ex.getMessage().equals(Constants.ErrorMessages.INCORRECT_DATES_KEY_LOGISTICDOCS_SEARCH_ERROR));
+		}
+	}	
 
 	private LogisticDoc createLogisticDoc(){
 		LogisticDoc v_doc = new LogisticDoc();
