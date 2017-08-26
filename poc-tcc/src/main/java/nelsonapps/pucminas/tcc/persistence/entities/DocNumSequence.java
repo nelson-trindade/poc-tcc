@@ -17,4 +17,8 @@ public class DocNumSequence {
 	public Long getId(){
 		return Id;
 	}
+	
+	public void setId(Long Id){
+		this.Id = Id;
+	}
 }

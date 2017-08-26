@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import nelsonapps.pucminas.tcc.persistence.entities.Client;
 import nelsonapps.pucminas.tcc.persistence.entities.Manufacturer;
-import nelsonapps.pucminas.tcc.service.ClientDataService;
 import nelsonapps.pucminas.tcc.service.ManufacturerDataService;
+import nelsonapps.pucminas.tcc.service.interfaces.IClientDataService;
 import nelsonapps.pucminas.tcc.test.configs.TestDatabaseConfig;
 import nelsonapps.pucminas.tcc.test.configs.TestServicesConfig;
 
@@ -25,7 +25,7 @@ public class DataServicesTests {
 	private ManufacturerDataService manufacturerDataService;
 	
 	@Autowired
-	private ClientDataService clientDataService;
+	private IClientDataService clientDataService;
 	
 	@Test
 	@Transactional

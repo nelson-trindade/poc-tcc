@@ -17,7 +17,6 @@ public interface ILogisticDocService {
 	LogisticDoc update(LogisticDoc logisticDoc);
 	LogisticDoc addItems(LogisticDoc logisticDoc,LogisticDocItem ... items);
 	
-	
 	Page<LogisticDoc> findByPartnerDocTypeAndDateInterval(Partner partner
 			,DocTypeEnum docType,Map<String,Date> dateReferences,
 			Pageable pageRequest)throws Exception;

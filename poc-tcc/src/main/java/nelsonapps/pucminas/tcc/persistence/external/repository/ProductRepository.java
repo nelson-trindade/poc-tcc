@@ -10,5 +10,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
 	Page<Product> findByManufacturerCnpj(String manufacturerCnpj,Pageable pageRequest);
 	Page<Product> findByShortNameLike(String shortNameSearchTerm,Pageable pageRequest);
+	Page<Product> findByShortNameLikeAndReturnablePackage(String shortNameSearchTerm,boolean returnablePackage,Pageable pageRequest);
 }
+
 
