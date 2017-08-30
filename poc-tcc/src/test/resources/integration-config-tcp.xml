@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-ip="http://www.springframework.org/schema/integration/ip"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration/ip http://www.springframework.org/schema/integration/ip/spring-integration-ip-4.3.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.3.xsd">
+
+	<int:channel id="notifyManufacturerChannel">
+		<int:queue />
+	</int:channel>
+ 
+    <int:channel id="tcpNotifyManufacturerChannel">
+    	<int:queue />
+    </int:channel>      
+     
+	<int:gateway id="notifyManufacturerProducer"
+		service-interface="nelsonapps.pucminas.tcc.integration.gateway.ReverseLogisticDocs"
+		default-request-channel="notifyManufacturerChannel">
+		<int:method name="notifyItensToCollect" />
+	</int:gateway>
+
+	<bean id="reverseLogisticService" class="nelsonapps.pucminas.tcc.service.ReverseLogisticService" />
+	<bean id="logisticDocMessageService"
+		class="nelsonapps.pucminas.tcc.integration.service.LogisticDocMessageService" />
+    
+    <int:object-to-json-transformer
+ 	  input-channel="notifyManufacturerChannel" output-channel="tcpNotifyManufacturerChannel">
+ 	    <int:poller fixed-delay="300"/>
+    </int:object-to-json-transformer>
+    
+    <int-ip:tcp-connection-factory id="client"
+ 		type="client" host="localhost" port="8086" />
+    
+     <int-ip:tcp-outbound-channel-adapter id="tcpNotifyManufacturerOutput" channel="tcpNotifyManufacturerChannel"
+       client-mode="true" connection-factory="client" >
+       <int:poller fixed-delay="400"/>
+     </int-ip:tcp-outbound-channel-adapter>
+</beans>

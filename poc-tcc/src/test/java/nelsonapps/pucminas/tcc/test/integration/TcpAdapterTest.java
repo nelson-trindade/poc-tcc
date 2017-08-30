@@ -1,7 +1,5 @@
 package nelsonapps.pucminas.tcc.test.integration;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.math.BigDecimal;
 import java.util.Calendar;
 
@@ -21,20 +19,16 @@ import nelsonapps.pucminas.tcc.persistence.entities.Manufacturer;
 import nelsonapps.pucminas.tcc.persistence.enums.DocTypeEnum;
 import nelsonapps.pucminas.tcc.persistence.enums.ReturnReasonEnum;
 import nelsonapps.pucminas.tcc.service.interfaces.IReverseLogisticService;
-import nelsonapps.pucminas.tcc.test.configs.IntegrationConfig;
-import nelsonapps.pucminas.tcc.test.integration.endpoint.ReceiveManufacturerNotifyEndPoint;
+import nelsonapps.pucminas.tcc.test.configs.IntegrationFlowConfig;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes={IntegrationConfig.class})
-public class GatewaySendingTest {
+@SpringBootTest(classes={IntegrationFlowConfig.class})
+public class TcpAdapterTest {
 
-	private LogisticDoc logisticDoc;
+private LogisticDoc logisticDoc;
 	
 	@Autowired
 	private IReverseLogisticService reverseLogisticService;
-	
-	@Autowired
-	private ReceiveManufacturerNotifyEndPoint receiveNotifyEndPoint;
 	
 	@Before
 	public void createLogisticDoc(){
@@ -66,8 +60,11 @@ public class GatewaySendingTest {
 	}
 	
 	@Test
-	public void sendMessage() {
+	public void sendMessage(){
+		//For this test a groovy TCP server was developing to receive the logisticDoc in JSON form
+		//After the message sent, it is seen in the groovy TCP server console screen.
 		reverseLogisticService.sendReturnableLogisticDoc(logisticDoc);
-		assertThat(receiveNotifyEndPoint.getReceivedMessage().getDocNum()==logisticDoc.getDocNum().getId());
+		System.out.println("In progress.....");
+		System.out.print("End");
 	}
 }

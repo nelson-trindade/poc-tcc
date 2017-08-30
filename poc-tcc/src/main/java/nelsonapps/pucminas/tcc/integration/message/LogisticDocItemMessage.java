@@ -1,17 +1,15 @@
 package nelsonapps.pucminas.tcc.integration.message;
 
-import java.math.BigDecimal;
-
 public class LogisticDocItemMessage {
 
-	private BigDecimal quantity;
+	private double quantity;	
 	private String productUUID;
     private String returnReason;
 	
-	public BigDecimal getQuantity() {
+	public double getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(BigDecimal quantity) {
+	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
 	public String getProductUUID() {
