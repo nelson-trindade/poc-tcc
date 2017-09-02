@@ -6,3 +6,4 @@ poc-tcc/.project
 poc-tcc/.settings/
 .recommenders/
 poc-tcc/.springBeans
+poc-tcc/src/main/resources/node_modules/

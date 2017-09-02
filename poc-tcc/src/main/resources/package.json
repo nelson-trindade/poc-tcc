@@ -1,0 +1,23 @@
+{
+  "name": "resources",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node_modules/.bin/lite-server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.6.5",
+    "angular-route": "^1.6.5",
+    "bootstrap": "^3.3.7",
+    "bootstrap-select": "^1.12.4",
+    "jquery": "^3.2.1"
+  },
+  "devDependencies": {
+    "lite-server": "^2.3.0"
+  }
+}
