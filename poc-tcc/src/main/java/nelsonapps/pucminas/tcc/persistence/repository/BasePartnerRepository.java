@@ -9,4 +9,5 @@ import nelsonapps.pucminas.tcc.persistence.entities.Partner;
 public interface BasePartnerRepository<E extends Partner> extends JpaRepository<E, Long> {
 
 	Page<E> findByNameLike(String nameSearchTerm,Pageable pageRequest);
+	Page<E> findByNameContaining(String nameSearchTerm,Pageable pageRequest);
 }

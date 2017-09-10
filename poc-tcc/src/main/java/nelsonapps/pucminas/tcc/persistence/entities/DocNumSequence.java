@@ -4,14 +4,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.TableGenerator;
 
 @Entity
-@SequenceGenerator(name="docNumSeq",sequenceName="docNumSeq",allocationSize=10)
 public class DocNumSequence {
 
+	@TableGenerator(
+			name="docNumSeq",
+			table="ID_GEN",
+			pkColumnName="GEN_KEY",
+			valueColumnName="GEN_VALUE",
+			pkColumnValue="DOCNUM_ID",
+			allocationSize=10
+			)	
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="docNumSeq")
+	@GeneratedValue(strategy=GenerationType.TABLE,generator="docNumSeq")
 	private Long Id;
 	
 	public Long getId(){
