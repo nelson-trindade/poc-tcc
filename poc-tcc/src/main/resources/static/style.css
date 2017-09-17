@@ -1,4 +1,4 @@
-.app-navbar .container-fluid{
+.app-navbar .container-fluid,.nav.navbar-nav .dropdown-menu  {
     background-color: #C4CE24;
 }
 

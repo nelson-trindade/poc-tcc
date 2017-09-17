@@ -54,15 +54,16 @@
                                     <tr>
                                         <th>Produto</th>
                                         <th>Quantidade</th>
+                                        <th>Preço(R$)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="item in logisticDoc.items"
                                         ng-class="{active:item._objId == selectedDocItem._objId}"
                                         ng-click="OnItemClicked(item)">
-                                         <td>{{item.shortName}}</td>
+                                         <td>{{item.productShortName}}</td>
                                          <td>{{item.quantityInput}} {{item.packingUnit}}</td>
-                                         <td>R$ {{item.price}}</td>
+                                         <td>{{item.price.toLocaleString()}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -70,78 +71,85 @@
                     </div>
                 </div>
             </div>
-            <div class="row" ng-show="OpenItemFormFlag===true">
-                <div class="col-xs-8">
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <h4>Adicionar item</h4>
-                        </div>
-                        <div class="col-xs-1 pull-right">
-                            <button type="button" class="close" ng-click="closeItemForm()">
-                                <span>&times;</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <hr />
-                <form class="form-horizontal" ng-submit="submitItem()">
-                    <div class="form-group">
-                        <label class="control-label col-xs-2" for="productShortName">Produto</label>
-                        <div class="col-xs-4">
-                            <input type="search" id="productShortName" class="form-control"
-                                   ng-model="product.searchTerm" placeholder="Buscar produtos"
-                                   ng-change="searchProduct(product.searchTerm)" list="productSearchResult"
-                                   required />
-                            <datalist id="productSearchResult">
-                                <option ng-repeat="productSearch in productSearchList" value={{productSearch.productUUID}}>
-                                    {{productSearch.shortName}}
-                                </option>
-                            </datalist>
-                        </div>
-                        <div class="col-xs-4 text-center alert alert-info" ng-if="showProductName && getProductName().length>0">
-                            <span>{{getProductName()}}</span>
-                        </div>
-                        <div class="col-xs-4 text-center alert alert-danger alert-dismissable" ng-if="product.searchError">
-                            <a href="#" class="close" data-dismiss="alert" 
-                                ng-click="clearProductSearchError()">&times;</a>
-                            <span>{{product.searchError}}</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-xs-2" for="inputProductQuantity">Quantidade</label>
-                        <div class="col-xs-4">
-                            <input id="inputProductQuantity" class="form-control" type="number"
-                                   min="0" ng-focus="showProductInfo()" ng-model="product.quantityInput" required/>
-                        </div>
-                        <div class="col-xs-5 text-center alert alert-info" ng-if="showProductUnitData">
-                            <span>1 {{selectedProduct.packingUnit}} - {{selectedProduct.measureUnitValuePerPackage}} {{selectedProduct.measureUnit}}</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-xs-2" for="productPrice">Preço</label>
-                        <input id="productPrice" class="form-control" type="number"
-                               ng-model="product.price" required/>
-                    </div>
-                    <div class="form-group">
+            <div ng-show="OpenItemFormFlag===true">
+                <div class="row">
+                    <div class="col-xs-8">
                         <div class="row">
-                            <div class="center-block">
-                                <input type="submit" value="Criar" class="btn btn-primary"/>
+                            <div class="col-xs-8">
+                                <h4>Adicionar item</h4>
+                            </div>
+                            <div class="col-xs-1 pull-right">
+                                <button type="button" class="close" ng-click="closeItemForm()">
+                                    <span>&times;</span>
+                                </button>
                             </div>
                         </div>
                     </div>
-                </form>
+                </div>    
+                <div class="row">
+                    <form class="form-horizontal" ng-submit="submitItem()">
+                        <div class="form-group">
+                            <label class="control-label col-xs-2" for="productShortName">Produto</label>
+                            <div class="col-xs-4">
+                                <input type="search" id="productShortName" class="form-control"
+                                   ng-model="product.searchTerm" placeholder="Buscar produtos"
+                                   ng-change="searchProduct(product.searchTerm)" list="productSearchResult"
+                                   required />
+                                <datalist id="productSearchResult">
+                                    <option ng-repeat="productSearch in productSearchList" value={{productSearch.productUUID}}>
+                                        {{productSearch.shortName}}
+                                    </option>
+                                </datalist>
+                            </div>
+                            <div class="col-xs-3 text-center alert alert-info" ng-if="showProductName && getProductName().length>0">
+                                <span>{{getProductName()}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="product.searchError">
+                            <div class="col-xs-4 text-center alert alert-danger alert-dismissable">
+                                <a href="#" class="close" data-dismiss="alert" 
+                                    ng-click="clearProductSearchError()">&times;</a>
+                                <span>{{product.searchError}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2" for="inputProductQuantity">Quantidade</label>
+                            <div class="col-xs-3">
+                                <input id="inputProductQuantity" class="form-control" type="number"
+                                       min="0" ng-focus="showProductInfo()" ng-model="product.quantityInput" required/>
+                            </div>
+                            <div class="col-xs-1 text-center alert alert-info" ng-if="showProductUnitData">
+                                <span>1 {{selectedProduct.packingUnit}} - {{selectedProduct.measureUnitValuePerPackage}} {{selectedProduct.measureUnit}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2" for="productPrice">Preço(R$)</label>
+                            <div class="col-xs-3">
+                                <input id="productPrice" class="form-control" min="0"
+                                    type="text" pattern="^\d*(,\d{2})?$"
+                                    ng-model="product.price" required/>
+                            </div>       
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-2 col-xs-offset-3">
+                                <input type="submit" value="Criar" class="btn btn-primary"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="row">
-                <div class="center-block">
+            <div class="row form-group">
+                <div class="col-xs-2 col-xs-offset-5">
                     <button type="button" class="btn btn-primary" ng-click="finishSalesOrder()">Finalizar</button>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-xs-8">
                     <div id="notificationCallbackMessage" class="alert alert-dismissable hidden">
-                        <a href="#" class="close" data-dismiss="alert" ng-click="cleanCallbackMessage">
-                            <span></span>
+                        <a href="#" class="close" data-dismiss="alert" ng-click="cleanCallbackMessage()">
+                            &times;
                         </a>
+                        <span></span>
                     </div>
                 </div>
             </div>

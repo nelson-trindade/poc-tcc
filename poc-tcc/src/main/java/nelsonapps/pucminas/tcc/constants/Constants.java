@@ -20,10 +20,13 @@ public class Constants {
 		public static final String AT_LEAST_ONE_NOT_NULL_ARGUMENT_ERROR="Ao menos um parâmetro deve ser diferente de nulo";
 		public static final String INCORRECT_DATES_KEY_LOGISTICDOCS_SEARCH_ERROR="Chaves de datas incorretas na busca de documentos de compra";
 		public static final String RETURN_LOGISTIC_DOC_DESPATCH_ERROR ="Erro no pedido de devolução";
+		public static final String SO_CREAT_ERROR = "Erro ao criar ordem de venda";
 	}
 	
 	public class SuccessMessages{
 		public static final String RETURN_LOGISTIC_DOC_DESPATCHED = "Pedido de devolução despacho com sucesso";
+		public static final String SO_CREATED_SUCCESS = "Ordem de venda criada com sucesso";
+		
 	}
 	
 }

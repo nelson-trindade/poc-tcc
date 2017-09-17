@@ -24,7 +24,7 @@ public class LogisticDocItem {
 	
 	@NotNull
 	@DecimalMin("0.00")
-	@Column(precision=3)
+	@Column(scale=2)
 	private BigDecimal quantity;
 	
 	@Column(nullable=true)
@@ -32,7 +32,7 @@ public class LogisticDocItem {
 	
 	@NotNull
 	@DecimalMin("0.00")
-	@Column(precision=2)
+	@Column(scale=2)
 	private BigDecimal price;
 	
 	@Column(nullable=true)

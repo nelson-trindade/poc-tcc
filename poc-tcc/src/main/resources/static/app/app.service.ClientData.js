@@ -5,7 +5,7 @@
 
         var getData = function(searchTerm,page,size){
             return new Promise(function(resolve,reject){
-                $http.post(address,{
+                $http.get(address,{
                     params:{
                         searchTerm: searchTerm,
                         page: page,

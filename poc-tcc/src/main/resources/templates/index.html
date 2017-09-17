@@ -20,19 +20,25 @@
         src="../../app.module.js" ></script>
         <script type="text/javascript" th:src="@{app/app.controller.reverseLogistic.js}" 
         src="../app/app.controller.reverseLogistic.js"></script>
+        <script type="text/javascript" th:src="@{app/app.controller.createSalesOrder.js}"
+        src="../app/app.controller.createSalesOrder.js"></script>
         <script type="text/javascript" th:src="@{app/app.service.ManufacturerData.js}"
         src="../../app.service.ManufacturerData.js"></script>
         <script type="text/javascript" th:src="@{app/app.service.ProductData.js}"
         src="../../app.service.ProductData.js"></script>
         <script type="text/javascript" th:src="@{app/app.service.ReverseLogistic.js}"
         src="../../app.service.ReverseLogistic.js"></script>
+        <script type="text/javascript" th:src="@{app/app.service.Sales.js}"
+        src="../../app.service.Sales.js"></script>
+        <script type="text/javascript" th:src="@{app/app.service.ClientData.js}"
+        src="../../app.service.ClientData.js"></script>
         <link rel="stylesheet" type="text/css" th:href="@{node_modules/bootstrap/dist/css/bootstrap.min.css}"
         href="../node_modules/bootstrap/dist/css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" th:href="@{style.css}" href="style.css"/>
     </head>
 
     <body>
-        <nav class="navbar navbar-default navbar-fixed-top app-navbar">
+        <nav class="navbar navbar-default app-navbar">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">
@@ -48,7 +54,7 @@
                            Vendas
                         </a>
                         <ul class="dropdown-menu">
-                            <a href="/sales/salesOrder/create">Criar Ordem de Venda</a>
+                            <a class="text-center" href="/sales/salesOrder/create">Criar Ordem de Venda</a>
                         </ul>
                     </li>
                 </ul>

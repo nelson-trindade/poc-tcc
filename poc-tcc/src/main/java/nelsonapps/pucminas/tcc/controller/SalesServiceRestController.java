@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import nelsonapps.pucminas.tcc.constants.Constants;
 import nelsonapps.pucminas.tcc.dto.ResponseMessage;
 import nelsonapps.pucminas.tcc.integration.message.LogisticDocMessage;
 import nelsonapps.pucminas.tcc.service.interfaces.ISalesService;
@@ -24,13 +25,13 @@ public class SalesServiceRestController {
 			salesService.createSalesOrder(logisticDocMessage);
 			return new ResponseMessage(){
 				{
-					message = "Ordem de venda criada com sucesso";
+					message = Constants.SuccessMessages.SO_CREATED_SUCCESS;
 				}
 			};
 		}catch(Exception ex){
 			return new ResponseMessage(){
 				{
-					message = "Erro ao criar ordem de venda " + ex.getLocalizedMessage();
+					message = Constants.ErrorMessages.SO_CREAT_ERROR +" "+ex.getLocalizedMessage();
 				}
 			};
 		}

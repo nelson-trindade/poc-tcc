@@ -21,7 +21,7 @@
             searchError: null
         };
         $scope.productSearchList=[];
-        $scope.productSearchListDictionary=[];
+        $scope.productSearchDictionary=[];
         $scope.showProductUnitData = false;
         $scope.showProductName = false;
 
@@ -123,7 +123,7 @@
             $scope.productSearchList = [];
             data.content.forEach(function(item,index){
                 $scope.productSearchList.push(item);
-                $scope.productSearchListDictionary.push(item);
+                $scope.productSearchDictionary.push(item);
             });
         };
 
@@ -167,6 +167,7 @@
                 delete element.quantityInput;
                 delete element.productShortName;
                 delete element.packingUnit;
+                element.price = Number(element.price.replace(",","\."));
                 element.quantity = quantity;
             });
 
@@ -215,6 +216,6 @@
 
     angular.module("pocWebFrontEnd").controller("createSalesOrderController",
                                                 ["$scope","ClientDataService",
-                                                 "ProductDataService","SalesService"],
-                                                createSalesOrderController);
+                                                 "ProductDataService","SalesService",
+                                                createSalesOrderController]);
 })();
