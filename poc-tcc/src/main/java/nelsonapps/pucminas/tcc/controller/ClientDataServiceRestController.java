@@ -9,19 +9,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import nelsonapps.pucminas.tcc.persistence.entities.Manufacturer;
-import nelsonapps.pucminas.tcc.service.interfaces.IManufacturerDataService;
+import nelsonapps.pucminas.tcc.persistence.entities.Client;
+import nelsonapps.pucminas.tcc.service.interfaces.IClientDataService;
 
 @RestController
-@RequestMapping(value="/manufacturer",produces=MediaType.APPLICATION_JSON_VALUE)
-public class ManufacturerDataServiceRestController {
-     
+@RequestMapping(value="/client",produces=MediaType.APPLICATION_JSON_VALUE)
+public class ClientDataServiceRestController {
+
 	@Autowired
-	private IManufacturerDataService manufacturerDataService;
+	private IClientDataService clientDataSevice;
 	
 	@GetMapping
-	public Page<Manufacturer>searchByName(@RequestParam("searchTerm")String searchTerm,
+	public Page<Client> searchByName(@RequestParam("searchTerm")String searchTerm,
 			@RequestParam("page")int page,@RequestParam("size")int size){
-		return manufacturerDataService.findByNameContaining(searchTerm, new PageRequest(page, size));
+		
+		return clientDataSevice.findByNameContaining(searchTerm, new PageRequest(page,size));
+	
 	}
+	
 }

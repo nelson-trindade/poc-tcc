@@ -2,9 +2,12 @@ package nelsonapps.pucminas.tcc.test.persistence;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,21 +21,27 @@ import org.springframework.transaction.annotation.Transactional;
 import nelsonapps.pucminas.tcc.constants.Constants;
 import nelsonapps.pucminas.tcc.persistence.entities.DocNumSequence;
 import nelsonapps.pucminas.tcc.persistence.entities.LogisticDoc;
+import nelsonapps.pucminas.tcc.persistence.entities.LogisticDocItem;
 import nelsonapps.pucminas.tcc.persistence.entities.Partner;
 import nelsonapps.pucminas.tcc.persistence.enums.DocTypeEnum;
+import nelsonapps.pucminas.tcc.persistence.enums.ReturnReasonEnum;
 import nelsonapps.pucminas.tcc.persistence.repository.DocNumSequenceRepository;
+import nelsonapps.pucminas.tcc.persistence.repository.LogisticDocItemRepository;
 import nelsonapps.pucminas.tcc.persistence.repository.LogisticDocRepository;
 import nelsonapps.pucminas.tcc.persistence.repository.ManufacturerRepository;
 import nelsonapps.pucminas.tcc.service.LogisticDocService;
 import nelsonapps.pucminas.tcc.test.configs.TestDatabaseConfig;
-import nelsonapps.pucminas.tcc.test.configs.TestServicesConfig;
+import nelsonapps.pucminas.tcc.test.configs.TestServicesConfigWithOutIntegration;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes={TestDatabaseConfig.class,TestServicesConfig.class})
+@SpringBootTest(classes={TestDatabaseConfig.class,TestServicesConfigWithOutIntegration.class})
 public class LogisiticDocRepositoryTests {
 
 	@Autowired
 	private LogisticDocRepository logisticDocRepository; 
+	
+	@Autowired
+	private LogisticDocItemRepository logisticItemRepository;
 	
 	@Autowired
 	private ManufacturerRepository manufacturerRepository;
@@ -128,7 +137,31 @@ public class LogisiticDocRepositoryTests {
 		} catch(Exception ex){
 			assertThat(ex.getMessage().equals(Constants.ErrorMessages.INCORRECT_DATES_KEY_LOGISTICDOCS_SEARCH_ERROR));
 		}
-	}	
+	}
+	
+	
+	@Test
+	@Transactional
+	public void createLogisticDocWithItem(){
+		LogisticDoc v_doc = logisticDocService.create(DocTypeEnum.RET, manufacturerRepository.findAll().get(0));
+		LogisticDocItem v_Item = new LogisticDocItem();
+		v_Item.setDocHeader(v_doc);
+		v_Item.setProductUUID("ABC");
+		v_Item.setQuantity(BigDecimal.valueOf(10));
+		v_Item.setPrice(BigDecimal.valueOf(0));
+		v_Item.setExpiringDate(Calendar.getInstance().getTime());
+		v_Item.setReturnReason(ReturnReasonEnum.EXPIRED_DATE.getEnumValue());
+		List<LogisticDocItem> v_List = new ArrayList<>();
+		v_List.add(v_Item);
+		
+		logisticDocService.addItems(v_doc, v_List);
+
+		List<LogisticDocItem>v_retrivedItens = logisticItemRepository.findAll();
+		LogisticDoc v_retrivedDoc = logisticDocRepository.findOne(v_doc.getId());
+		assertThat(v_retrivedItens.get(0).getDocHeader().getId()==v_doc.getId());
+		assertThat(v_retrivedDoc.getItems().size()==1);
+		
+	}
 
 	private LogisticDoc createLogisticDoc(){
 		LogisticDoc v_doc = new LogisticDoc();

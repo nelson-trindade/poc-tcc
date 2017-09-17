@@ -14,8 +14,8 @@
                     } 
                 }).then(function(response){
                     resolve(response.data);
-                },function(error){
-                    reject("Erro na comunicação com o servidor");
+                },function(reason){
+                    reject("Erro na comunicação com o servidor ao buscar dados de fornecedores");
                 });
             });
         };

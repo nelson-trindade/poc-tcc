@@ -1,5 +1,6 @@
 package nelsonapps.pucminas.tcc.service.interfaces;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public interface ILogisticDocService {
 
 	LogisticDoc create(DocTypeEnum docType,Partner partner);
 	LogisticDoc update(LogisticDoc logisticDoc);
-	LogisticDoc addItems(LogisticDoc logisticDoc,LogisticDocItem ... items);
+	LogisticDoc addItems(LogisticDoc logisticDoc,Collection<LogisticDocItem>items);
 	
 	Page<LogisticDoc> findByPartnerDocTypeAndDateInterval(Partner partner
 			,DocTypeEnum docType,Map<String,Date> dateReferences,

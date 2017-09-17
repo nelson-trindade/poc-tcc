@@ -1,13 +1,12 @@
 package nelsonapps.pucminas.tcc.integration.message;
 
-import java.util.List;
-
 public class LogisticDocMessage{
 	
 	private long docNum;
 	
-	private List<LogisticDocItemMessage>items;
+	private LogisticDocItemMessage[] items;
 	private String manufacturerCnpj;
+	private String clientCpf;
 	
 	public long getDocNum() {
 		return docNum;
@@ -15,10 +14,10 @@ public class LogisticDocMessage{
 	public void setDocNum(long docNum) {
 		this.docNum = docNum;
 	}
-	public List<LogisticDocItemMessage> getItems() {
+	public LogisticDocItemMessage[] getItems() {
 		return items;
 	}
-	public void setItems(List<LogisticDocItemMessage> items) {
+	public void setItems(LogisticDocItemMessage[] items) {
 		this.items = items;
 	}
 	public String getManufacturerCnpj(){
@@ -26,5 +25,11 @@ public class LogisticDocMessage{
 	}
 	public void setManufacturerCnpj(String manufacturerCnpj){
 		this.manufacturerCnpj = manufacturerCnpj;
+	}
+	public String getClientCpf() {
+		return clientCpf;
+	}
+	public void setClientCpf(String clientCpf) {
+		this.clientCpf = clientCpf;
 	}
 }

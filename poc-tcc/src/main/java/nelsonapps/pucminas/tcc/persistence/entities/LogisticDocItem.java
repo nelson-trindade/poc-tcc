@@ -27,7 +27,7 @@ public class LogisticDocItem {
 	@Column(precision=3)
 	private BigDecimal quantity;
 	
-	@NotNull
+	@Column(nullable=true)
 	private Date deliveryDate;
 	
 	@NotNull
@@ -35,9 +35,10 @@ public class LogisticDocItem {
 	@Column(precision=2)
 	private BigDecimal price;
 	
-	@NotNull
+	@Column(nullable=true)
 	private Date expiringDate;
 	
+	@Column(nullable=true)
 	private String returnReason;
 	
 	@NotBlank

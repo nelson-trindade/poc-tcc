@@ -2,6 +2,7 @@ package nelsonapps.pucminas.tcc.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -11,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.google.common.collect.Lists;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -25,6 +26,7 @@ import nelsonapps.pucminas.tcc.persistence.entities.Partner;
 import nelsonapps.pucminas.tcc.persistence.entities.QLogisticDoc;
 import nelsonapps.pucminas.tcc.persistence.enums.DocTypeEnum;
 import nelsonapps.pucminas.tcc.persistence.repository.DocNumSequenceRepository;
+import nelsonapps.pucminas.tcc.persistence.repository.LogisticDocItemRepository;
 import nelsonapps.pucminas.tcc.persistence.repository.LogisticDocRepository;
 import nelsonapps.pucminas.tcc.service.interfaces.ILogisticDocService;
 
@@ -34,6 +36,10 @@ public class LogisticDocService implements ILogisticDocService {
 
 	@Autowired
 	private LogisticDocRepository logisticDocRepository;
+	
+	@Autowired
+    private LogisticDocItemRepository logisticDocItemRepository; 
+	
 	
 	@Autowired
 	private DocNumSequenceRepository docNumSequenceRepository;
@@ -114,9 +120,15 @@ public class LogisticDocService implements ILogisticDocService {
 
 
 	@Override
-	public LogisticDoc addItems(LogisticDoc logisticDoc, LogisticDocItem... items) {
-		logisticDoc.setItems(Lists.newArrayList(items));
-		return logisticDocRepository.save(logisticDoc);
+	@Transactional
+	public LogisticDoc addItems(LogisticDoc logisticDoc,Collection<LogisticDocItem> items) { 
+		items.forEach(it->{
+			it.setDocHeader(logisticDoc);
+			logisticDocItemRepository.save(it);
+		});
+	    
+	    logisticDoc.setItems(items);
+	    return logisticDoc;
 	}
 }
 

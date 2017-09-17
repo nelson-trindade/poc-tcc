@@ -6,6 +6,10 @@
         {
             templateUrl: 'app/views/reverseLogistic.html',
             controller: "reverseLogisticController"
+        }).when('/sales/salesOrder/create',
+        {
+            templateUrl:'app/views/createSalesOrder.html',
+            controller:'createSalesOrderController'
         }).when('/',{
             templateUrl: 'app/views/initialContent.html'
         }).otherwise({

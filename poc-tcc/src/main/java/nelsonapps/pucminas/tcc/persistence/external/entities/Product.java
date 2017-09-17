@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -37,6 +38,14 @@ public class Product {
 	@NotBlank
 	@Size(max=4)
 	private String measureUnit;
+	
+	@NotBlank
+	@Size(max=4)
+	private String packingUnit;
+	
+	@NotBlank
+	@DecimalMin("0.00")
+	private Long measureUnitValuePerPackage;
 	
 	@NotBlank
 	@Pattern(regexp=Constants.cnpjRegex)
@@ -95,6 +104,22 @@ public class Product {
 
 	public void setManufacturerCnpj(String manufacturerCnpj) {
 		this.manufacturerCnpj = manufacturerCnpj;
+	}
+
+	public String getPackingUnit() {
+		return packingUnit;
+	}
+
+	public void setPackingUnit(String packingUnit) {
+		this.packingUnit = packingUnit;
+	}
+
+	public Long getMeasureUnitValuePerPackage() {
+		return measureUnitValuePerPackage;
+	}
+
+	public void setMeasureUnitValuePerPackage(Long measureUnitValuePerPackage) {
+		this.measureUnitValuePerPackage = measureUnitValuePerPackage;
 	}
 	
 }

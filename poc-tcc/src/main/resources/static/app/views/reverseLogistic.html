@@ -7,21 +7,18 @@
         <div class="panel-body">
             <div class="row">
                 <div class="form-group col-xs-6">
-                    <label class="control-label" for="partner">Fabricante</label>
-                    <input type="search" class="form-control" required
-                           list="searchResult" placeholder="Buscar fornecedor"
-                           ng-model="manufacturer.searchTerm" ng-change="search(manufacturer.searchTerm)"/>
-                    <datalist id="searchResult">
-                        <option ng-repeat="result in ManufacturerSearchList"
-                                value="{{result.cnpj}}">{{result.name}}</option>
+                    <label class="control-label" for="inputManufacturer">Fabricante</label>
+                    <input type="search" id="inputManufacturer" class="form-control" required list="searchResultManufacturer" placeholder="Buscar fornecedor"
+                        ng-model="manufacturer.searchTerm" ng-change="searchManufacturer(manufacturer.searchTerm)" />
+                    <datalist id="searchResultManufacturer">
+                        <option ng-repeat="manufacturerSearch in ManufacturerSearchList" value="{{manufacturerSearch.cnpj}}">{{manufacturerSearch.name}}</option>
                     </datalist>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-xs-6" ng-model="error">
                     <div ng-if="error" class="alert alert-danger alert-dismissable">
-                        <a href="#" class="close" data-dismiss="alert" 
-                           ng-click="clearError()">&times;</a>
+                        <a href="#" class="close" data-dismiss="alert" ng-click="clearError()">&times;</a>
                         <span>{{error}}</span>
                     </div>
                 </div>
@@ -37,11 +34,11 @@
             <div class="form-group">
                 <div class="btn-group">
                     <button type="button" class="btn btn-xs btn-default" ng-click="addItem()">
-                <span class="glyphicon glyphicon-plus"></span>
-            </button>
+                       <span class="glyphicon glyphicon-plus"></span>
+                    </button>
                     <button type="button" class="btn btn-xs btn-default" ng-click="removeItem()">
-                <span class="glyphicon glyphicon-trash"></span>
-            </button>
+                       <span class="glyphicon glyphicon-trash"></span>
+                    </button>
                 </div>
             </div>
             <div class="row">
@@ -54,12 +51,12 @@
                                     <th>Quantidade</th>
                                     <th>Motivo de devolução</th>
                                 </tr>
-                                <tr ng-repeat="item in logisticDoc.items"
-                                    ng-class="{active: item._objId == selectedDocItem._objId}"
-                                    ng-click="OnItemClicked(item)">
+                                <tr ng-repeat="item in logisticDoc.items" ng-class="{active: item._objId == selectedDocItem._objId}" ng-click="OnItemClicked(item)">
                                     <td>{{item.productShortName}}</td>
-                                    <td>{{item.quantity}}</td>
-                                    <td>{{item.returnReason.description}}</td>
+                                    <td>{{item.quantityInput}} {{item.packingUnit}}</td>
+                                    <td>{{item.returnReason.description}}
+                                        <span ng-if="item.expiringDate"> (vencido em {{item.expiringDate.toLocaleDateString()}})</span>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
@@ -74,8 +71,8 @@
                         </div>
                         <div class="col-xs-1 pull-right">
                             <button type="button" class="close" ng-click="closeItemForm()">
-                            <span>&times;</span>
-                        </button>
+                              <span>&times;</span>
+                            </button>
                         </div>
                     </div>
                     <hr/>
@@ -83,21 +80,27 @@
                         <div class="form-group">
                             <label class="control-label col-xs-2" for="productShortName">Produto</label>
                             <div class="col-xs-4">
-                                <input class="form-control" type="search" id="productShortName" 
-                                       ng-model="product.searchTerm" required />
+                                <input class="form-control" type="search" id="productShortName" ng-model="product.searchTerm" list="searchResultProduct"
+                                    ng-change="searchProduct(product.searchTerm)" required />
+                                <datalist id="searchResultProduct">
+                                    <option ng-repeat="productSearch in productSearchList" value="{{productSearch.productUUID}}">{{productSearch.shortName}}</option>
+                                </datalist>
+                            </div>
+                            <div class="col-xs-4 text-center alert alert-info" ng-if="showProductName && getProductName().length>0">
+                                <span>{{getProductName()}}</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-xs-2" for="productQuantity">Quantidade</label>
-                            <div class="col-xs-3" id="productQuantityDiv">
+                            <div class="col-xs-4" id="productQuantityDiv">
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-xs-8">
-                                            <input class="form-control" type="number" required
-                                                   id="productQuantity" min="0" ng-model="product.quantity" required />
+                                        <div class="col-xs-7">
+                                            <input class="form-control" type="number" ng-focus="showProductInfo()" required id="productQuantity" min="0" ng-model="product.quantityInput"
+                                                required />
                                         </div>
-                                        <div class="col-xs-1" id="productMeasureUnitDiv">
-                                            <span>{{product.measureUnit}}</span>
+                                        <div class="col-xs-5 text-center alert alert-info" id="productMeasureUnitDiv" ng-if="showProductUnitData">
+                                            <span>1 {{selectedProduct.packingUnit}} - {{selectedProduct.measureUnitValuePerPackage}} {{selectedProduct.measureUnit}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -106,12 +109,16 @@
                         <div class="form-group">
                             <label class="control-label col-xs-2" for="returnReason">Motivo</label>
                             <div class="col-xs-4">
-                                <select id="returnReason" class="form-control"
-                                        ng-options="returnReason.description for returnReason
-                                                    in returnReasonEnum track by returnReason.enumValue"
-                                        ng-model="product.returnReasonSelected">
+                                <select id="returnReason" class="form-control" ng-options="returnReason.description for returnReason
+                                                    in returnReasonEnum track by returnReason.enumValue" ng-model="product.returnReasonSelected">
                                         <option value="">Nenhum valor selecionado</option>            
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="product.returnReasonSelected.enumValue==='EXPIRED_DATE'">
+                            <label class="control-label col-xs-2" for="expiringDate">Data de validade</label>
+                            <div class="col-xs-4">
+                                <input id="expiringDate" class="form-control" type="date" ng-model="product.expiringDate" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -127,6 +134,14 @@
             <div class="row">
                 <div class="form-group col-xs-offset-6">
                     <button type="button" class="btn btn-primary" ng-click="sendNotification()">Enviar</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-8">
+                    <div id="notificationCallbackMessage" class="alert alert-dismissable hidden">
+                        <a href="#" class="close" data-dismiss="alert" ng-click="clearCallbackNotificationMessage()">&times;</a>
+                        <span></span>
+                    </div>
                 </div>
             </div>
         </div>

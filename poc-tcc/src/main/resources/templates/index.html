@@ -12,6 +12,8 @@
          src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
         <script type="text/javascript" th:src="@{node_modules/angular/angular.min.js}" 
         src="../node_modules/angular/angular.min.js"></script>
+        <script type="text/javascript" th:src="@{libs/notify.min.js}"
+        src="../libs/notify.min.js"></script>
         <script type="text/javascript" th:src="@{node_modules/angular-route/angular-route.min.js}" 
         src="../node_modules/angular-route/angular-route.min.js"></script>
         <script type="text/javascript" th:src="@{app/app.module.js}"
@@ -20,6 +22,10 @@
         src="../app/app.controller.reverseLogistic.js"></script>
         <script type="text/javascript" th:src="@{app/app.service.ManufacturerData.js}"
         src="../../app.service.ManufacturerData.js"></script>
+        <script type="text/javascript" th:src="@{app/app.service.ProductData.js}"
+        src="../../app.service.ProductData.js"></script>
+        <script type="text/javascript" th:src="@{app/app.service.ReverseLogistic.js}"
+        src="../../app.service.ReverseLogistic.js"></script>
         <link rel="stylesheet" type="text/css" th:href="@{node_modules/bootstrap/dist/css/bootstrap.min.css}"
         href="../node_modules/bootstrap/dist/css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" th:href="@{style.css}" href="style.css"/>
@@ -33,10 +39,18 @@
                         <img alt="Marca" th:src="@{app/img/logo.png}" />
                     </a>
                 </div>
-
                 <ul class="nav navbar-nav">
                     <li><a href="/" id="brandName">eAgro</a></li>
                     <li><a href="/reverse">LogísticaReversa</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                           role="button">
+                           Vendas
+                        </a>
+                        <ul class="dropdown-menu">
+                            <a href="/sales/salesOrder/create">Criar Ordem de Venda</a>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </nav>
